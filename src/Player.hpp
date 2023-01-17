@@ -5,11 +5,11 @@
 #include <string>
 #include <vector>
 
+#define ACTIONS_COUNT 7
 enum PlayerActions {
     UP, DOWN, LEFT, RIGHT,
     ATTACK, GRAB, IDLE
 };
-
 
 class Player {
     private:
@@ -23,7 +23,7 @@ class Player {
         size_t texture_width;
 
         PlayerActions curr_action;
-        std::vector <SDL_Scancode> player_action_keys;
+        SDL_Scancode player_action_keys[ACTIONS_COUNT];
 
         void key_handler(float delta, const Uint8 *key_state);
         void update_frame(float delta);

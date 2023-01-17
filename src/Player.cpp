@@ -32,7 +32,7 @@ void set_sprite_cfgs
 
 }
 
-void set_player_keys(std::vector<SDL_Scancode> player_action_keys) 
+void set_player_keys(SDL_Scancode player_action_keys[]) 
 {
     player_action_keys[UP] = SDL_SCANCODE_W;
     player_action_keys[LEFT] = SDL_SCANCODE_A;
@@ -52,8 +52,9 @@ SDL_Texture *get_texture(SDL_Renderer *render_target, std::string sprites_path)
         std::cout << "Error at creating surface: " << SDL_GetError() << std::endl;
         return NULL;
     }
-    else
+    else 
         texture = SDL_CreateTextureFromSurface(render_target, surface);
+    
 
     if (texture == NULL) 
     {
@@ -61,6 +62,8 @@ SDL_Texture *get_texture(SDL_Renderer *render_target, std::string sprites_path)
         return NULL;
     }
     SDL_FreeSurface(surface);
+
+    std::cout << "Hello";
 
     return texture;
 
@@ -180,6 +183,7 @@ void Player::Draw(SDL_Renderer *render_target)
 Player::~Player() 
 {
     SDL_DestroyTexture(sprites);
+    sprites = nullptr;
 }
 
 

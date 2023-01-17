@@ -63,6 +63,7 @@ int main(void) {
        SDL_RenderPresent(render);
    }
 
+   player.~Player();
 
    window = nullptr;
    render = nullptr;
