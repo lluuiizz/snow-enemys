@@ -49,7 +49,7 @@ SDL_Texture *get_texture(SDL_Renderer *render_target, std::string sprites_path)
 
     if (surface == NULL)
     {
-        std::cout << "Error at creating surface: " << SDL_GetError() << std::endl;
+        std::cout << "Error at creating surface: " << IMG_GetError() << std::endl;
         return NULL;
     }
     else 

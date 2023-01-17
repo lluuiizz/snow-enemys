@@ -1,9 +1,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "Player.hpp"
+#include "GameObjs.hpp"
 
-#define WIDTH 1280
-#define HEIGHT 720
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
 
 int main(void) {
 
@@ -14,7 +15,7 @@ int main(void) {
        std::cout << "Init Video Error: " << SDL_GetError() << std::endl;
    }
 
-   window = SDL_CreateWindow("Snow Enemys", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN );
+   window = SDL_CreateWindow("Snow Enemys", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 
    if (window == NULL) {
        std::cout << "Init Window Error: " << SDL_GetError() << std::endl;
@@ -36,10 +37,14 @@ int main(void) {
    //   Event Holder? Don't know a good name
    SDL_Event ev;
 
-   //   Instantiates Player
+   //   Instantiates Game Things 
    Player player(render, "../sprites/Player/sprite-test.png", 0, 0, 2, 4);
+/*   std::vector<IceFloor> ice; 
+   for (int i = 0; i < 10; ++i) {
+       ice.emplace_back(IceFloor(render, window, "../sprites/GameObjs/ice_floor.png"));
+   }*/
 
-   SDL_SetRenderDrawColor(render, 0xFF,0xFF,0xFF,0xFF);
+   IceFloor ice(render, window, "../sprites/GameObjs/ice_floor2.png");
 
    while (is_running) {
        //   Frames
@@ -58,6 +63,7 @@ int main(void) {
                                                
                                     
        SDL_RenderClear(render);
+       ice.Draw(render);
        player.Update(delta_time, key_state);
        player.Draw(render);
        SDL_RenderPresent(render);
@@ -71,7 +77,6 @@ int main(void) {
    SDL_DestroyWindow(window);
    SDL_DestroyRenderer(render);
    SDL_Quit();
-
    return 0;
 
 }
