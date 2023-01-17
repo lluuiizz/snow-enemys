@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
-
+#include "Player.hpp"
 
 #define WIDTH 1280
 #define HEIGHT 720
@@ -36,6 +36,9 @@ int main(void) {
    //   Event Holder? Don't know a good name
    SDL_Event ev;
 
+   //   Instantiates Player
+   Player player(render, "../sprites/Player/player.png", 0, 0, 2, 3);
+
    SDL_SetRenderDrawColor(render, 0xFF,0xFF,0xFF,0xFF);
 
    while (is_running) {
@@ -52,7 +55,11 @@ int main(void) {
        }
 
        key_state = SDL_GetKeyboardState(NULL); //   Get all key inputs
+                                               
+                                    
        SDL_RenderClear(render);
+       player.Update(delta_time, key_state);
+       player.Draw(render);
        SDL_RenderPresent(render);
    }
 
