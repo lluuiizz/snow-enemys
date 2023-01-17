@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-enum e_player_actions {
+enum PlayerActions {
     UP, DOWN, LEFT, RIGHT,
     ATTACK, GRAB, IDLE
 };
@@ -22,8 +22,11 @@ class Player {
         size_t frame_width, frame_height;
         size_t texture_width;
 
-        e_player_actions curr_action;
-        std::vector <SDL_Scancode> player_key_actions;
+        PlayerActions curr_action;
+        std::vector <SDL_Scancode> player_action_keys;
+
+        void key_handler(float delta, const Uint8 *key_state);
+        void update_frame(float delta);
 
     public:
         Player(SDL_Renderer *render_target, std::string sprites_path, size_t init_pos_x, size_t init_pos_y, size_t sprites_in_x_axys, size_t sprites_in_y_axys);
