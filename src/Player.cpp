@@ -25,8 +25,8 @@ void set_sprite_cfgs
     *frame_width = position_rect->w = crop_rect->w;
     *frame_height = position_rect->h = crop_rect->h;
 
-    position_rect->w *= 2;
-    position_rect->h *= 2;
+    position_rect->w *= 4;
+    position_rect->h *= 4;
 
     crop_rect->x = crop_rect->y = 0;
 
@@ -63,8 +63,6 @@ SDL_Texture *get_texture(SDL_Renderer *render_target, std::string sprites_path)
     }
     SDL_FreeSurface(surface);
 
-    std::cout << "Hello";
-
     return texture;
 
 }
@@ -75,26 +73,26 @@ void Player::key_handler(float delta, const Uint8 *key_state)
 
     if (key_state[player_action_keys[UP]])
     {
-        position_rect.y -= move_speed * delta;
+        position_rect.y -= (int)(move_speed * delta);
         curr_action = UP;
 
     }
     else if (key_state[player_action_keys[RIGHT]]) 
     {
-        position_rect.x += move_speed * delta;
+        position_rect.x += (int)(move_speed * delta);
         curr_action = RIGHT;
 
     }
     else if (key_state[player_action_keys[LEFT]]) 
     {
-        position_rect.x -= move_speed * delta;
+        position_rect.x -= (int)(move_speed * delta);
         curr_action = LEFT;
 
     }
 
     else if (key_state[player_action_keys[DOWN]]) 
     {
-        position_rect.y += move_speed * delta;
+        position_rect.y += (int)(move_speed * delta);
         curr_action = DOWN;
     }
 
@@ -108,16 +106,17 @@ void Player::key_handler(float delta, const Uint8 *key_state)
 
 void Player::update_frame(float delta) 
 {
-
     frame_counter += delta;
 
-    if(frame_counter >= 0.5f) 
+    if(frame_counter >= 0.25f) 
     {
         frame_counter = 0;
 
         switch (curr_action) 
         {
             case UP:
+                crop_rect.y = frame_height * 2;
+                crop_rect.x += frame_width;
                 break;
             case DOWN:
                 crop_rect.y = 0;
@@ -133,7 +132,7 @@ void Player::update_frame(float delta)
                 break;
             case IDLE:
                 crop_rect.y = 0;
-                crop_rect.x += frame_width;
+                crop_rect.x = 0;
                 break;
             default:
                 break;
@@ -157,24 +156,21 @@ Player::Player(
     set_player_keys(player_action_keys);
 
     curr_action = IDLE;
-    move_speed = 250.0f;
+    move_speed = 300.0f;
 
 }
 
 void Player::Update(float delta, const Uint8 *key_state) 
 {
-
     key_handler(delta, key_state);
     update_frame(delta);
 }
 
 void Player::Draw(SDL_Renderer *render_target) 
 {
-    if (curr_action == LEFT)
-    {
+    if (curr_action == LEFT) {
         SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL;
         SDL_RenderCopyEx(render_target, sprites, &crop_rect, &position_rect, 0, NULL, flip);
-
     }
     else 
         SDL_RenderCopy(render_target, sprites, &crop_rect, &position_rect);
@@ -183,6 +179,7 @@ void Player::Draw(SDL_Renderer *render_target)
 Player::~Player() 
 {
     SDL_DestroyTexture(sprites);
+    IMG_Quit();
     sprites = nullptr;
 }
 

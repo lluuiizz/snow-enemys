@@ -37,7 +37,7 @@ int main(void) {
    SDL_Event ev;
 
    //   Instantiates Player
-   Player player(render, "../sprites/Player/player.png", 0, 0, 2, 3);
+   Player player(render, "../sprites/Player/sprite-test.png", 0, 0, 2, 3);
 
    SDL_SetRenderDrawColor(render, 0xFF,0xFF,0xFF,0xFF);
 
