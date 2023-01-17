@@ -108,14 +108,14 @@ void Player::update_frame(float delta)
 {
     frame_counter += delta;
 
-    if(frame_counter >= 0.25f) 
+    if(frame_counter >= 0.125f) 
     {
         frame_counter = 0;
 
         switch (curr_action) 
         {
             case UP:
-                crop_rect.y = frame_height * 2;
+                crop_rect.y = frame_height * 3;
                 crop_rect.x += frame_width;
                 break;
             case DOWN:
@@ -127,7 +127,7 @@ void Player::update_frame(float delta)
                 crop_rect.x += frame_width;
                 break;
             case LEFT:
-                crop_rect.y = frame_height;
+                crop_rect.y = frame_height * 2;
                 crop_rect.x += frame_width;
                 break;
             case IDLE:
@@ -168,12 +168,7 @@ void Player::Update(float delta, const Uint8 *key_state)
 
 void Player::Draw(SDL_Renderer *render_target) 
 {
-    if (curr_action == LEFT) {
-        SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL;
-        SDL_RenderCopyEx(render_target, sprites, &crop_rect, &position_rect, 0, NULL, flip);
-    }
-    else 
-        SDL_RenderCopy(render_target, sprites, &crop_rect, &position_rect);
+    SDL_RenderCopy(render_target, sprites, &crop_rect, &position_rect);
 }
 
 Player::~Player() 
@@ -182,5 +177,4 @@ Player::~Player()
     IMG_Quit();
     sprites = nullptr;
 }
-
 
